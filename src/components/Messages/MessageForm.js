@@ -10,11 +10,11 @@ class MessageForm extends React.Component {
     user: this.props.currentUser,
     loading: false,
     errors: []
-  }
+  };
 
   handleChange = event => {
     this.setState({[event.target.name]: event.target.value});
-  }
+  };
 
   createMessage = () => {
     const message = {
@@ -27,7 +27,7 @@ class MessageForm extends React.Component {
       content: this.state.message
     };
     return message;
-  }
+  };
 
   sendMessage = () => {
     const {messagesRef} = this.props;
@@ -54,10 +54,10 @@ class MessageForm extends React.Component {
         errors: this.state.errors.concat({message: "Add a message"})
       })
     }
-  }
+  };
 
   render() {
-    const {errors} = this.state;
+    const {errors, message, loading} = this.state;
 
     return (
       <Segment className="message__form">
@@ -65,6 +65,7 @@ class MessageForm extends React.Component {
           fluid
           name="message"
           onChange={this.handleChange}
+          value={message}
           style={{marginBottom: '0.7em'}}
           label={<Button icon={'add'} />}
           labelPosition="left"
@@ -76,6 +77,7 @@ class MessageForm extends React.Component {
         <Button.Group icon widths="2">
           <Button
             onClick={this.sendMessage}
+            disabled={loading}
             color="orange"
             content="Add Reply"
             labelPosition="left"

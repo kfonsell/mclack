@@ -3,8 +3,8 @@ import "firebase/auth";
 import "firebase/database";
 import "firebase/storage";
 
-var config = {
-    apiKey: "API_KEY_HERE",
+const config = {
+    apiKey: "AIzaSyAYczH79eVJFWrnTMkgTrcsb2mArTMotw0",
     authDomain: "react-slack-clone-6e387.firebaseapp.com",
     databaseURL: "https://react-slack-clone-6e387.firebaseio.com",
     projectId: "react-slack-clone-6e387",

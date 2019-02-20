@@ -10,9 +10,9 @@ class DirectMessages extends React.Component {
     activeChannel: '',
     user: this.props.currentUser,
     users: [],
-    usersRef: firebase.database().ref('users'),
-    connectedRef: firebase.database().ref('.info/connected'),
-    presenceRef: firebase.database().ref('presence')
+    usersRef: firebase.database().ref("users"),
+    connectedRef: firebase.database().ref(".info/connected"),
+    presenceRef: firebase.database().ref("presence")
   };
 
   componentDidMount() {
@@ -21,38 +21,38 @@ class DirectMessages extends React.Component {
     }
   }
 
-  addListeners = currentUserId => {
+  addListeners = currentUserUid => {
     let loadedUsers = [];
     this.state.usersRef.on('child_added', snap => {
-      if (currentUserId !== snap.key) {
+      if (currentUserUid !== snap.key) {
         let user = snap.val();
         user['uid'] = snap.key;
         user['status'] = 'offline';
         loadedUsers.push(user);
-        this.setState({users:loadedUsers});
+        this.setState({users: loadedUsers});
       }
     });
 
     this.state.connectedRef.on('value', snap => {
-      if (snap.val() === 'true') {
-        const ref = this.state.presenceRef.child(currentUserId);
+      if (snap.val() === true) {
+        const ref = this.state.presenceRef.child(currentUserUid);
         ref.set(true);
         ref.onDisconnect().remove(err => {
           if (err !== null) {
             console.error(err);
           }
-        })
+        });
       }
     });
 
     this.state.presenceRef.on('child_added', snap => {
-      if (currentUserId !== snap.key) {
+      if (currentUserUid !== snap.key) {
         this.addStatusToUser(snap.key);
       }
     });
 
     this.state.presenceRef.on('child_removed', snap => {
-      if (currentUserId !== snap.key) {
+      if (currentUserUid !== snap.key) {
         this.addStatusToUser(snap.key, false);
       }
     });
@@ -60,7 +60,7 @@ class DirectMessages extends React.Component {
 
   addStatusToUser = (userId, connected = true) => {
     const updatedUsers = this.state.users.reduce((acc, user) => {
-      if (user.uid ===userId) {
+      if (user.uid === userId) {
         user['status'] = `${connected ? 'online' : 'offline'}`;
       }
       return acc.concat(user);
@@ -88,7 +88,7 @@ class DirectMessages extends React.Component {
 
   setActiveChannel = userId => {
     this.setState({activeChannel: userId});
-  }
+  };
 
   render() {
     const {users, activeChannel} = this.state;
@@ -108,7 +108,8 @@ class DirectMessages extends React.Component {
             style={{opacity: 0.7, fontStyle: 'italic'}}
           >
             <Icon
-              name="circle"
+              name="circle outline"
+              size="small"
               color={this.isUserOnline(user) ? 'green' : 'red'}
             />
             @ {user.name}

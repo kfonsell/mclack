@@ -18,7 +18,7 @@ export const clearUser = () => {
 
 /* Channel actions */
 export const setCurrentChannel = channel => {
-  return{
+  return {
     type: actionTypes.SET_CURRENT_CHANNEL,
     payload: {
       currentChannel: channel
@@ -27,7 +27,7 @@ export const setCurrentChannel = channel => {
 };
 
 export const setPrivateChannel = isPrivateChannel => {
-  return{
+  return {
     type: actionTypes.SET_PRIVATE_CHANNEL,
     payload: {
       isPrivateChannel
@@ -41,7 +41,7 @@ export const setUserPosts = userPosts => {
     payload: {
       userPosts
     }
-  }
+  };
 };
 
 /* Colors actions */
@@ -52,5 +52,5 @@ export const setColors = (primaryColor, secondaryColor) => {
       primaryColor,
       secondaryColor
     }
-  }
-}
+  };
+};

@@ -1,7 +1,7 @@
 import React from "react";
-import {Segment, Comment} from "semantic-ui-react";
-import {connect} from "react-redux";
-import {setUserPosts} from "../../actions";
+import { Segment, Comment } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { setUserPosts } from "../../actions";
 import firebase from "../../Firebase";
 
 import MessagesHeader from "./MessagesHeader";
@@ -10,10 +10,9 @@ import Message from "./Message";
 import Typing from "./Typing";
 
 class Messages extends React.Component {
-
   state = {
     privateChannel: this.props.isPrivateChannel,
-    privateMessagesRef: firebase.database().ref('privateMessages'),
+    privateMessagesRef: firebase.database().ref("privateMessages"),
     messagesRef: firebase.database().ref("messages"),
     messages: [],
     messagesLoading: true,
@@ -23,15 +22,15 @@ class Messages extends React.Component {
     usersRef: firebase.database().ref("users"),
     typingRef: firebase.database().ref("typing"),
     connectedRef: firebase.database().ref(".info/connected"),
-    numUniqueUsers: '',
-    searchTerm: '',
+    numUniqueUsers: "",
+    searchTerm: "",
     searchLoading: false,
     searchResults: [],
     typingUsers: []
   };
 
   componentDidMount() {
-    const {channel, user} = this.state;
+    const { channel, user } = this.state;
 
     if (channel && user) {
       this.addListeners(channel.id);
@@ -52,7 +51,7 @@ class Messages extends React.Component {
           id: snap.key,
           name: snap.val()
         });
-        this.setState({typingUsers});
+        this.setState({ typingUsers });
       }
     });
 
@@ -60,7 +59,7 @@ class Messages extends React.Component {
       const index = typingUsers.findIndex(user => user.id === snap.key);
       if (index !== -1) {
         typingUsers = typingUsers.filter(user => user.id !== snap.key);
-        this.setState({typingUsers});
+        this.setState({ typingUsers });
       }
     });
 
@@ -74,9 +73,9 @@ class Messages extends React.Component {
             if (err !== null) {
               console.error(err);
             }
-          })
+          });
       }
-    })
+    });
   };
 
   addMessageListener = channelId => {
@@ -102,36 +101,37 @@ class Messages extends React.Component {
         if (data.val() !== null) {
           const channelIds = Object.keys(data.val());
           const prevStarred = channelIds.includes(channelId);
-          this.setState({isChannelStarred: prevStarred});
+          this.setState({ isChannelStarred: prevStarred });
         }
       });
   };
 
   getMessagesRef = () => {
-    const {messagesRef, privateMessagesRef, privateChannel} = this.state;
+    const { messagesRef, privateMessagesRef, privateChannel } = this.state;
     return privateChannel ? privateMessagesRef : messagesRef;
   };
 
   handleStar = () => {
-    this.setState(prevState => ({
-      isChannelStarred: !prevState.isChannelStarred
-    }), () => this.starChannel());
+    this.setState(
+      prevState => ({
+        isChannelStarred: !prevState.isChannelStarred
+      }),
+      () => this.starChannel()
+    );
   };
 
   starChannel = () => {
     if (this.state.isChannelStarred) {
-      this.state.usersRef
-        .child(`${this.state.user.uid}/starred`)
-        .update({
-          [this.state.channel.id]: {
-            name: this.state.channel.name,
-            details: this.state.channel.details,
-            createdBy: {
-              name: this.state.channel.createdBy.name,
-              avatar: this.state.channel.createdBy.avatar
-            }
+      this.state.usersRef.child(`${this.state.user.uid}/starred`).update({
+        [this.state.channel.id]: {
+          name: this.state.channel.name,
+          details: this.state.channel.details,
+          createdBy: {
+            name: this.state.channel.createdBy.name,
+            avatar: this.state.channel.createdBy.avatar
           }
-        });
+        }
+      });
     } else {
       this.state.usersRef
         .child(`${this.state.user.uid}/starred`)
@@ -145,23 +145,29 @@ class Messages extends React.Component {
   };
 
   handleSearchChange = event => {
-    this.setState({
-      searchTerm: event.target.value,
-      searchLoading: true
-    }, () => this.handleSearchMessages());
+    this.setState(
+      {
+        searchTerm: event.target.value,
+        searchLoading: true
+      },
+      () => this.handleSearchMessages()
+    );
   };
 
   handleSearchMessages = () => {
     const channelMessages = [...this.state.messages];
-    const regex = new RegExp(this.state.searchTerm, 'gi');
+    const regex = new RegExp(this.state.searchTerm, "gi");
     const searchResults = channelMessages.reduce((acc, message) => {
-      if ((message.content && message.content.match(regex)) || message.user.name.match(regex)) {
+      if (
+        (message.content && message.content.match(regex)) ||
+        message.user.name.match(regex)
+      ) {
         acc.push(message);
       }
       return acc;
     }, []);
-    this.setState({searchResults});
-    setTimeout(() => this.setState({searchLoading: false}), 1000);
+    this.setState({ searchResults });
+    setTimeout(() => this.setState({ searchLoading: false }), 1000);
   };
 
   countUniqueUsers = messages => {
@@ -172,8 +178,8 @@ class Messages extends React.Component {
       return acc;
     }, []);
     const plural = uniqueUsers.length > 1 || uniqueUsers.length === 0;
-    const numUniqueUsers = `${uniqueUsers.length} user${plural ? 's' : ''}`;
-    this.setState({numUniqueUsers});
+    const numUniqueUsers = `${uniqueUsers.length} user${plural ? "s" : ""}`;
+    this.setState({ numUniqueUsers });
   };
 
   countUserPosts = messages => {
@@ -184,40 +190,54 @@ class Messages extends React.Component {
         acc[message.user.name] = {
           avatar: message.user.avatar,
           count: 1
-        }
+        };
       }
       return acc;
     }, {});
     this.props.setUserPosts(userPosts);
   };
 
-  displayMessages = messages => (
-    messages.length > 0 && messages.map(message => (
+  displayMessages = messages =>
+    messages.length > 0 &&
+    messages.map(message => (
       <Message
         key={message.timestamp}
         message={message}
         user={this.state.user}
       />
-    ))
-  );
+    ));
 
   displayChannelName = channel => {
-    return channel ? `${this.state.privateChannel ? '@' : '#'}${channel.name}` : '';
+    return channel
+      ? `${this.state.privateChannel ? "@" : "#"}${channel.name}`
+      : "";
   };
 
-  displayTypingUsers = users => (
-    users.length > 0 && users.map(user => (
-      <div style={{display: "flex", alignItems: "center", marginBottom: "0.2em"}}
-        key={user.id}>
+  displayTypingUsers = users =>
+    users.length > 0 &&
+    users.map(user => (
+      <div
+        style={{ display: "flex", alignItems: "center", marginBottom: "0.2em" }}
+        key={user.id}
+      >
         <span className="user__typing">{user.name} is typing</span> <Typing />
       </div>
-    ))
-  );
+    ));
 
   render() {
-    // prettier-ignore
-    const { messagesRef, messages, channel, user, numUniqueUsers, searchTerm,
-      searchResults, searchLoading, privateChannel, isChannelStarred, typingUsers } = this.state;
+    const {
+      messagesRef,
+      messages,
+      channel,
+      user,
+      numUniqueUsers,
+      searchTerm,
+      searchResults,
+      searchLoading,
+      privateChannel,
+      isChannelStarred,
+      typingUsers
+    } = this.state;
 
     return (
       <React.Fragment>
@@ -252,4 +272,7 @@ class Messages extends React.Component {
   }
 }
 
-export default connect(null, {setUserPosts})(Messages);
+export default connect(
+  null,
+  { setUserPosts }
+)(Messages);

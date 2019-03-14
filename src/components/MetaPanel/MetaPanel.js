@@ -1,5 +1,12 @@
 import React from "react";
-import {Segment, Accordion, Header, Icon, Image, List} from "semantic-ui-react";
+import {
+  Segment,
+  Accordion,
+  Header,
+  Icon,
+  Image,
+  List
+} from "semantic-ui-react";
 
 class MetaPanel extends React.Component {
   state = {
@@ -9,10 +16,10 @@ class MetaPanel extends React.Component {
   };
 
   setActiveIndex = (event, titleProps) => {
-    const {index} = titleProps;
-    const {activeIndex} = this.state;
+    const { index } = titleProps;
+    const { activeIndex } = this.state;
     const newIndex = activeIndex === index ? -1 : index;
-    this.setState({activeIndex: newIndex});
+    this.setState({ activeIndex: newIndex });
   };
 
   formatCount = num => (num > 1 || num === 0 ? `${num} posts` : `${num} post`);
@@ -21,19 +28,19 @@ class MetaPanel extends React.Component {
     Object.entries(posts)
       .sort((a, b) => b[1] - a[1])
       .map(([key, val], i) => (
-            <List.Item key={i}>
-              <Image avatar src={val.avatar}/>
-              <List.Content>
-                <List.Header as="a">{key}</List.Header>
-                <List.Description>{this.formatCount(val.count)}</List.Description>
-              </List.Content>
-            </List.Item>
-          ))
+        <List.Item key={i}>
+          <Image avatar src={val.avatar} />
+          <List.Content>
+            <List.Header as="a">{key}</List.Header>
+            <List.Description>{this.formatCount(val.count)}</List.Description>
+          </List.Content>
+        </List.Item>
+      ))
       .slice(0, 5);
 
   render() {
-    const {activeIndex, privateChannel, channel} = this.state;
-    const {userPosts} = this.props;
+    const { activeIndex, privateChannel, channel } = this.state;
+    const { userPosts } = this.props;
 
     if (privateChannel) return null;
 
@@ -48,8 +55,8 @@ class MetaPanel extends React.Component {
             index={0}
             onClick={this.setActiveIndex}
           >
-            <Icon name="dropdown"/>
-            <Icon name="info"/>
+            <Icon name="dropdown" />
+            <Icon name="info" />
             Channel Details
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 0}>
@@ -61,14 +68,12 @@ class MetaPanel extends React.Component {
             index={1}
             onClick={this.setActiveIndex}
           >
-            <Icon name="dropdown"/>
-            <Icon name="user circle"/>
+            <Icon name="dropdown" />
+            <Icon name="user circle" />
             Top Posters
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 1}>
-            <List>
-              {userPosts && this.displayTopPosters(userPosts)}
-            </List>
+            <List>{userPosts && this.displayTopPosters(userPosts)}</List>
           </Accordion.Content>
 
           <Accordion.Title
@@ -76,13 +81,13 @@ class MetaPanel extends React.Component {
             index={2}
             onClick={this.setActiveIndex}
           >
-            <Icon name="dropdown"/>
-            <Icon name="pencil alternate"/>
+            <Icon name="dropdown" />
+            <Icon name="pencil alternate" />
             Created By
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 2}>
             <Header as="h3">
-              <Image circular src={channel && channel.createdBy.avatar}/>
+              <Image circular src={channel && channel.createdBy.avatar} />
               {channel && channel.createdBy.name}
             </Header>
           </Accordion.Content>

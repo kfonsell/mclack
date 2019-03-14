@@ -1,14 +1,14 @@
 import React from "react";
 import firebase from "../../Firebase";
-import {connect} from "react-redux";
-import  {setCurrentChannel, setPrivateChannel} from "../../actions";
-import {Menu, Icon} from "semantic-ui-react";
+import { connect } from "react-redux";
+import { setCurrentChannel, setPrivateChannel } from "../../actions";
+import { Menu, Icon } from "semantic-ui-react";
 
 class Starred extends React.Component {
-  state= {
+  state = {
     user: this.props.currentUser,
     usersRef: firebase.database().ref("users"),
-    activeChannel: '',
+    activeChannel: "",
     starredChannels: []
   };
 
@@ -23,7 +23,7 @@ class Starred extends React.Component {
       .child(userId)
       .child("starred")
       .on("child_added", snap => {
-        const starredChannel = {id: snap.key, ...snap.val()};
+        const starredChannel = { id: snap.key, ...snap.val() };
         this.setState({
           starredChannels: [...this.state.starredChannels, starredChannel]
         });
@@ -33,16 +33,16 @@ class Starred extends React.Component {
       .child(userId)
       .child("starred")
       .on("child_removed", snap => {
-        const channelToRemove = {id: snap.key, ...snap.val()};
+        const channelToRemove = { id: snap.key, ...snap.val() };
         const filteredChannels = this.state.starredChannels.filter(channel => {
           return channel.id !== channelToRemove.id;
         });
-        this.setState({starredChannels: filteredChannels});
+        this.setState({ starredChannels: filteredChannels });
       });
   };
 
   setActiveChannel = channel => {
-    this.setState({activeChannel: channel.id});
+    this.setState({ activeChannel: channel.id });
   };
 
   changeChannel = channel => {
@@ -58,7 +58,7 @@ class Starred extends React.Component {
         key={channel.id}
         onClick={() => this.changeChannel(channel)}
         name={channel.name}
-        style={{opacity: 0.7}}
+        style={{ opacity: 0.7 }}
         active={channel.id === this.state.activeChannel}
       >
         # {channel.name}
@@ -66,20 +66,23 @@ class Starred extends React.Component {
     ));
 
   render() {
-    const {starredChannels} = this.state;
+    const { starredChannels } = this.state;
 
     return (
       <Menu.Menu className="menu">
         <Menu.Item>
-            <span>
-              <Icon name="star" /> STARRED
-            </span>{" "}
+          <span>
+            <Icon name="star" /> STARRED
+          </span>{" "}
           ({starredChannels.length})
         </Menu.Item>
         {this.displayChannels(starredChannels)}
       </Menu.Menu>
-    )
+    );
   }
 }
 
-export default connect(null, {setCurrentChannel, setPrivateChannel})(Starred);
+export default connect(
+  null,
+  { setCurrentChannel, setPrivateChannel }
+)(Starred);

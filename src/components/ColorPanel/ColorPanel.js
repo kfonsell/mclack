@@ -1,7 +1,7 @@
-import React from "react";
-import firebase from "../../Firebase";
-import { connect } from "react-redux";
-import { setColors } from "../../actions";
+import React from 'react';
+import firebase from '../../Firebase';
+import { connect } from 'react-redux';
+import { setColors } from '../../actions';
 import {
   Sidebar,
   Menu,
@@ -11,16 +11,16 @@ import {
   Icon,
   Label,
   Segment
-} from "semantic-ui-react";
-import { SliderPicker } from "react-color";
+} from 'semantic-ui-react';
+import { SliderPicker } from 'react-color';
 
 class ColorPanel extends React.Component {
   state = {
     modal: false,
-    primary: "",
-    secondary: "",
+    primary: '',
+    secondary: '',
     user: this.props.currentUser,
-    usersRef: firebase.database().ref("users"),
+    usersRef: firebase.database().ref('users'),
     userColors: []
   };
 
@@ -32,7 +32,7 @@ class ColorPanel extends React.Component {
 
   addListener = userId => {
     let userColors = [];
-    this.state.usersRef.child(`${userId}/colors`).on("child_added", snap => {
+    this.state.usersRef.child(`${userId}/colors`).on('child_added', snap => {
       userColors.unshift(snap.val());
       this.setState({ userColors });
     });
@@ -57,7 +57,7 @@ class ColorPanel extends React.Component {
         secondary
       })
       .then(() => {
-        console.log("Colors added");
+        console.log('Colors added');
         this.closeModal();
       })
       .catch(err => console.error(err));

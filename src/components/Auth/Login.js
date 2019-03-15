@@ -1,5 +1,5 @@
-import React from "react";
-import firebase from "../../Firebase";
+import React from 'react';
+import firebase from '../../Firebase';
 import {
   Grid,
   Form,
@@ -8,13 +8,13 @@ import {
   Header,
   Message,
   Icon
-} from "semantic-ui-react";
-import { Link } from "react-router-dom";
+} from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   state = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     errors: [],
     loading: false
   };
@@ -52,8 +52,8 @@ class Login extends React.Component {
 
   handleInputError = (errors, inputName) => {
     return errors.some(error => error.message.toLowerCase().includes(inputName))
-      ? "error"
-      : "";
+      ? 'error'
+      : '';
   };
 
   render() {
@@ -76,7 +76,7 @@ class Login extends React.Component {
                 placeholder="Email Address"
                 onChange={this.handleChange}
                 value={email}
-                className={this.handleInputError(errors, "email")}
+                className={this.handleInputError(errors, 'email')}
                 type="email"
               />
               <Form.Input
@@ -87,12 +87,12 @@ class Login extends React.Component {
                 placeholder="Password"
                 onChange={this.handleChange}
                 value={password}
-                className={this.handleInputError(errors, "password")}
+                className={this.handleInputError(errors, 'password')}
                 type="password"
               />
               <Button
                 disabled={loading}
-                className={loading ? "loading" : ""}
+                className={loading ? 'loading' : ''}
                 color="violet"
                 fluid
                 size="large"

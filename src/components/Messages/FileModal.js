@@ -1,11 +1,11 @@
-import React from "react";
-import mime from "mime-types";
-import { Modal, Input, Button, Icon } from "semantic-ui-react";
+import React from 'react';
+import mime from 'mime-types';
+import { Modal, Input, Button, Icon } from 'semantic-ui-react';
 
 class FileModal extends React.Component {
   state = {
     file: null,
-    authorized: ["image/jpeg", "image/png"]
+    authorized: ['image/jpeg', 'image/png']
   };
 
   addFile = event => {

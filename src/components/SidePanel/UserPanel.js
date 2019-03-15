@@ -1,6 +1,6 @@
-import React from "react";
-import firebase from "../../Firebase";
-import AvatarEditor from "react-avatar-editor";
+import React from 'react';
+import firebase from '../../Firebase';
+import AvatarEditor from 'react-avatar-editor';
 import {
   Grid,
   Header,
@@ -10,21 +10,21 @@ import {
   Modal,
   Input,
   Button
-} from "semantic-ui-react";
+} from 'semantic-ui-react';
 
 class UserPanel extends React.Component {
   state = {
     user: this.props.currentUser,
     modal: false,
-    previewImage: "",
-    croppedImage: "",
-    blob: "",
-    uploadedCroppedImage: "",
+    previewImage: '',
+    croppedImage: '',
+    blob: '',
+    uploadedCroppedImage: '',
     storageRef: firebase.storage().ref(),
     userRef: firebase.auth().currentUser,
-    usersRef: firebase.database().ref("users"),
+    usersRef: firebase.database().ref('users'),
     metadata: {
-      contentType: "image/jpeg"
+      contentType: 'image/jpeg'
     }
   };
 
@@ -34,7 +34,7 @@ class UserPanel extends React.Component {
 
   dropdownOptions = () => [
     {
-      key: "user",
+      key: 'user',
       text: (
         <span>
           Signed in as <strong>{this.state.user.displayName}</strong>
@@ -43,11 +43,11 @@ class UserPanel extends React.Component {
       disabled: true
     },
     {
-      key: "avatar",
+      key: 'avatar',
       text: <span onClick={this.openModal}>Change Avatar</span>
     },
     {
-      key: "signout",
+      key: 'signout',
       text: <span onClick={this.handleSignout}>Sign Out</span>
     }
   ];
@@ -72,7 +72,7 @@ class UserPanel extends React.Component {
         photoURL: this.state.uploadedCroppedImage
       })
       .then(() => {
-        console.log("PhotoURL updated");
+        console.log('PhotoURL updated');
         this.closeModal();
       })
       .catch(err => {
@@ -83,7 +83,7 @@ class UserPanel extends React.Component {
       .child(this.state.user.uid)
       .update({ avatar: this.state.uploadedCroppedImage })
       .then(() => {
-        console.log("User Avatar updated");
+        console.log('User Avatar updated');
       })
       .catch(err => {
         console.error(err);
@@ -96,7 +96,7 @@ class UserPanel extends React.Component {
 
     if (file) {
       reader.readAsDataURL(file);
-      reader.addEventListener("load", () => {
+      reader.addEventListener('load', () => {
         this.setState({ previewImage: reader.result });
       });
     }
@@ -118,7 +118,7 @@ class UserPanel extends React.Component {
     firebase
       .auth()
       .signOut()
-      .then(() => console.log("signed out!"));
+      .then(() => console.log('signed out!'));
   };
 
   render() {
@@ -128,7 +128,7 @@ class UserPanel extends React.Component {
     return (
       <Grid style={{ background: primaryColor }}>
         <Grid.Column>
-          <Grid.Row style={{ padding: "1.2em", margin: 0 }}>
+          <Grid.Row style={{ padding: '1.2em', margin: 0 }}>
             {/*App Header*/}
             <Header inverted floated="left" as="h2">
               <Icon name="code" />
@@ -136,7 +136,7 @@ class UserPanel extends React.Component {
             </Header>
 
             {/*User Dropdown*/}
-            <Header style={{ padding: "0.25em" }} as="h4" inverted>
+            <Header style={{ padding: '0.25em' }} as="h4" inverted>
               <Dropdown
                 trigger={
                   <span>
@@ -177,7 +177,7 @@ class UserPanel extends React.Component {
                   <Grid.Column>
                     {croppedImage && (
                       <Image
-                        style={{ margin: "3.5em auto" }}
+                        style={{ margin: '3.5em auto' }}
                         width={100}
                         height={100}
                         src={croppedImage}

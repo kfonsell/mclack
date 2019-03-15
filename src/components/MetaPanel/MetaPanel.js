@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Segment,
   Accordion,
@@ -6,7 +6,7 @@ import {
   Icon,
   Image,
   List
-} from "semantic-ui-react";
+} from 'semantic-ui-react';
 
 class MetaPanel extends React.Component {
   state = {

@@ -1,5 +1,5 @@
-import { combineReducers } from "redux";
-import * as actionTypes from "../actions/types";
+import { combineReducers } from 'redux';
+import * as actionTypes from '../actions/types';
 
 const initialUserState = {
   currentUser: null,
@@ -52,8 +52,8 @@ const channel_reducer = (state = initialChannelState, action) => {
 };
 
 const initialColorsState = {
-  primaryColor: "#4c3c4c",
-  secondaryColor: "#eee"
+  primaryColor: '#4c3c4c',
+  secondaryColor: '#eee'
 };
 
 const colors_reducer = (state = initialColorsState, action) => {

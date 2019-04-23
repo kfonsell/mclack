@@ -62,21 +62,21 @@ class MessageForm extends React.Component {
   handleAddEmoji = emoji => {
     const oldMessage = this.state.message;
     const newMessage = this.colonToUnicode(` ${oldMessage} ${emoji.colons} `);
-    this.setState({ message: newMessage, emojiPicker: false});
+    this.setState({ message: newMessage, emojiPicker: false });
     setTimeout(() => this.messageInputRef.focus(), 0);
   };
 
   colonToUnicode = message => {
     return message.replace(/:[A-Za-z0-9_+-]+:/g, x => {
-      x = x.replace(/:/g, "");
+      x = x.replace(/:/g, '');
       let emoji = emojiIndex.emojis[x];
-      if (typeof emoji !== "undefined") {
+      if (typeof emoji !== 'undefined') {
         let unicode = emoji.native;
-        if (typeof unicode !== "undefined") {
+        if (typeof unicode !== 'undefined') {
           return unicode;
         }
       }
-      x = ":" + x + ":";
+      x = ':' + x + ':';
       return x;
     });
   };
@@ -208,7 +208,7 @@ class MessageForm extends React.Component {
       <Segment className="message__form">
         {emojiPicker && (
           <Picker
-            set="emojione"
+            set="apple"
             onSelect={this.handleAddEmoji}
             className="emojipicker"
             title="Pick your emoji..."
@@ -229,7 +229,8 @@ class MessageForm extends React.Component {
               icon={emojiPicker ? 'close' : 'add'}
               content={emojiPicker ? 'Close' : null}
               onClick={this.handleTogglePicker}
-            />}
+            />
+          }
           labelPosition="left"
           className={
             errors.some(error => error.message.includes('message'))
